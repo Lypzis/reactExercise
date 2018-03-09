@@ -15,14 +15,30 @@ class App extends Component {
   textChangeHandler = (event) => {
     let inputFieldLength;
     let textOutput;
+    let characterArray = null;
+
+
 
     inputFieldLength = event.target.value.length;
     textOutput = event.target.value;
 
+    characterArray = this.state.text.slice('');
+
     this.setState({
       size: inputFieldLength,
-      text: textOutput
+      text: textOutput,
+      array: characterArray.split('')
     });
+  }
+
+  characterReturn = () => {
+    let character = null;
+
+      character = <CharComponent
+          character={this.state.array.forEach(e => { return e })}
+        />
+
+      return character;
   }
 
   textSizeChecker = () => {
@@ -31,15 +47,6 @@ class App extends Component {
     } else {
       return this.length = 'Text long enough!';
     }
-  }
-
-  charactersArray = () => {
-    let characterArray = null;
-
-    characterArray = this.state.text.slice();
-    this.setState({
-      array: characterArray.split('')
-    });
   }
 
   render() {
@@ -56,15 +63,7 @@ class App extends Component {
           sizeCheck={textSize} />
       );
 
-      characterTemplate = (
-        this.state.array.forEach((e) => {
-            return (
-              <CharComponent
-                character={e}
-              />
-            );
-        })
-      );
+      characterTemplate = this.characterReturn();
 
     }
 
