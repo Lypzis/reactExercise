@@ -76,9 +76,6 @@ class App extends Component {
 
     return (
       <div className="App">
-        <ol>
-          <li>When you click a CharComponent, it should be removed from the entered text.</li>
-        </ol>
 
         <input type='text' onChange={(event) => this.textChangeHandler(event)} />
         {lengthTemplate}
