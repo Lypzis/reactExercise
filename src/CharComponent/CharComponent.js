@@ -1,9 +1,10 @@
 import React from 'react';
+import './CharComponent.css';
 
 const charComponent = (props) => {
     return (
-        <div>
-            <p>{props.character}</p>
+        <div className='CharComponent'>
+            <p onClick={props.click}> {props.character}</p>
         </div>
     );
 }

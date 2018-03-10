@@ -8,38 +8,21 @@ class App extends Component {
 
   state = {
     size: 0,
-    text: '',
-    array: []
+    text: ''
   }
 
   textChangeHandler = (event) => {
     let inputFieldLength;
     let textOutput;
-    let characterArray = null;
-
-
 
     inputFieldLength = event.target.value.length;
     textOutput = event.target.value;
 
-    characterArray = this.state.text.slice('');
-
     this.setState({
       size: inputFieldLength,
-      text: textOutput,
-      array: characterArray.split('')
+      text: textOutput
     });
-  }
-
-  characterReturn = () => {
-    let character = null;
-
-      character = <CharComponent
-          character={this.state.array.forEach(e => { return e })}
-        />
-
-      return character;
-  }
+  };
 
   textSizeChecker = () => {
     if (this.state.size <= 5) {
@@ -47,12 +30,26 @@ class App extends Component {
     } else {
       return this.length = 'Text long enough!';
     }
-  }
+  };
 
+  characterSplit = () => this.state.text.split('');
+
+  characterDeleteHandler = (index) => {
+    let list = [...this.state.text];
+    
+    list.splice(index, 1);
+
+    list = list.join('');
+
+    this.setState({
+      text: list
+    })
+  };
+  
   render() {
     let lengthTemplate = null,
       textSize = null,
-      characterTemplate = null;
+      list = null;
 
     if (this.state.size > 0) {
       textSize = this.textSizeChecker();
@@ -63,21 +60,30 @@ class App extends Component {
           sizeCheck={textSize} />
       );
 
-      characterTemplate = this.characterReturn();
-
+      list = (
+        <div>
+          {/*not ideal key, always remember*/}
+          {this.characterSplit().map((e, index) => {
+           return <CharComponent 
+              character={e}
+              key={index} 
+              click={this.characterDeleteHandler.bind(this, index)}/>
+            })}
+        </div>
+      );
+      
     }
 
     return (
       <div className="App">
         <ol>
-          <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.</li>
           <li>When you click a CharComponent, it should be removed from the entered text.</li>
         </ol>
 
         <input type='text' onChange={(event) => this.textChangeHandler(event)} />
         {lengthTemplate}
         <br />
-        {characterTemplate}
+        {list}
 
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
       </div>
